@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Nav from './Nav'
 import Personal from '../pages/personal'
@@ -12,6 +12,10 @@ function Form() {
 
     const [page, setPage] = useState(0)
     const [yearly, setYearly] = useState(false)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [number, setNumber] = useState('')
+    const [valid, setValid] = useState(null)
 
     const header = [
         {
@@ -72,7 +76,16 @@ function Form() {
 
         switch (page) {
             case 0:
-                return <Personal />
+                return <Personal
+                    name={name}
+                    email={email}
+                    number={number}
+                    valid={valid}
+                    setName={setName}
+                    setEmail={setEmail}
+                    setNumber={setNumber}
+                    setValid={setValid}
+                />
                 break
             case 1:
                 return <Plan yearly={yearly} setYearly={setYearly} handlePlan={handlePlan} />
@@ -116,12 +129,12 @@ function Form() {
                 <div className={`hidden md:w-7/12 md:flex md:justify-between md:items-center md:absolute md:bottom-0 md:right-3 md:p-5 
                 ${page === header.length && "md:hidden"}`}>
 
-                    <Buttons page={page} setPage={setPage} header={header} />
+                    <Buttons page={page} setPage={setPage} header={header} valid={valid} />
 
                 </div>
             </div>
 
-            {/* qybuttons for mobile */}
+            {/* buttons for mobile */}
 
             <div className={`fixed left-0 bottom-0 right-0 bg-white p-3 flex justify-between md:hidden 
             ${page === header.length && 'hidden'}`

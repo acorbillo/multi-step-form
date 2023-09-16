@@ -1,6 +1,13 @@
 import React from 'react'
 
-function Buttons({ page, setPage, header }) {
+function Buttons({ page, setPage, header, valid }) {
+
+    const goNext = () => {
+        if (page < header.length && valid === true) {
+            setPage(page + 1)
+        }
+    }
+
     return (
         <>
             <button
@@ -12,9 +19,7 @@ function Buttons({ page, setPage, header }) {
 
             <button
                 className="next-btn"
-                onClick={() => (
-                    page < header.length && setPage(page + 1)
-                )}
+                onClick={goNext}
             >{page < 3 ? 'Next Step' : 'Confirm'}</button>
         </>
     )

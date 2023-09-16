@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import { useEffect } from "react";
 
-function Personal() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [number, setNumber] = useState('');
+
+function Personal({ name, email, number, valid, setName, setEmail, setNumber, setValid }) {
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -17,9 +15,19 @@ function Personal() {
         setNumber(event.target.value);
     };
 
-    const isNameValid = name.trim() !== '';
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    const isNumberValid = /^[+]?(\d+(\.\d+)?)?$/.test(number);
+    const formValidation = () => {
+
+        if (name === "" || email === "" || number === "" || !email.includes('@')) {
+            setValid(false)
+        } else {
+            setValid(true)
+        }
+    }
+
+    useEffect(() => {
+        // Call formValidation whenever the input values change
+        formValidation();
+    }, [name, email, number]);
 
     return (
         <form className='flex flex-col w-full pb-12 space-y-3'>
@@ -33,7 +41,7 @@ function Personal() {
                     placeholder='e.g. Stephen King'
                     value={name}
                     onChange={handleNameChange}
-                    className={`w-full p-2 border ${isNameValid ? 'border-coolGray' : 'border-red-500'} rounded-md outline-none`}
+                    className={`w-full p-2 border ${valid ? 'border-coolGray' : 'border-strawberryRed'} rounded-md outline-none`}
                 />
             </div>
             <div>
@@ -46,7 +54,7 @@ function Personal() {
                     placeholder='e.g. stephenking@lorem.com'
                     value={email}
                     onChange={handleEmailChange}
-                    className={`w-full p-2 border ${isEmailValid ? 'border-coolGray' : 'border-red-500'} rounded-md outline-none`}
+                    className={`w-full p-2 border ${valid ? 'border-coolGray' : 'border-strawberryRed'} rounded-md outline-none`}
                 />
             </div>
             <div>
@@ -59,7 +67,7 @@ function Personal() {
                     placeholder='e.g. +1 234 567 890'
                     value={number}
                     onChange={handleNumberChange}
-                    className={`w-full p-2 border ${isNumberValid ? 'border-coolGray' : 'border-red-500'} rounded-md outline-none`}
+                    className={`w-full p-2 border ${valid ? 'border-coolGray' : 'border-strawberryRed'} rounded-md outline-none`}
                 />
             </div>
         </form>
